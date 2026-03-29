@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Retro Neon Virtual Studio</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <header class="top-bar">
+      <div class="logo">
+        <span class="logo-main">NEON STUDIO</span>
+        <span class="logo-sub">virtual music lab</span>
+      </div>
+      <div class="transport">
+        <button id="playBtn" class="btn-transport">▶ PLAY</button>
+        <button id="stopBtn" class="btn-transport">■ STOP</button>
+        <div class="bpm-block">
+          <span>BPM</span>
+          <input type="number" id="bpmInput" value="120" min="40" max="220" />
+        </div>
+      </div>
+      <div class="status-lights">
+        <div class="status-led" id="ledClock"></div>
+        <span class="status-label">CLOCK</span>
+      </div>
+    </header>
+
+    <main class="main-layout">
+      <!-- Left: Track list -->
+      <aside class="track-list">
+        <h2>TRACKS</h2>
+        <div class="track" data-track="drums">
+          <div class="track-color color-drums"></div>
+          <div class="track-info">
+            <div class="track-name">DRUM MACHINE</div>
+            <div class="track-meta">16-step · analog style</div>
+          </div>
+        </div>
+        <div class="track" data-track="synth">
+          <div class="track-color color-synth"></div>
+          <div class="track-info">
+            <div class="track-name">POLY SYNTH</div>
+            <div class="track-meta">saw · filter · env</div>
+          </div>
+        </div>
+        <div class="track" data-track="fx">
+          <div class="track-color color-fx"></div>
+          <div class="track-info">
+            <div class="track-name">STUDIO VERB</div>
+            <div class="track-meta">space · damp · mix</div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Center: Sequencer + Keyboard -->
+      <section class="center-panel">
+        <section class="timeline">
+          <div class="panel-header">
+            <h2>DRUM SEQUENCER</h2>
+            <span class="panel-sub">click steps to toggle · 16 steps</span>
+          </div>
+          <div class="sequencer">
+            <div class="seq-row">
+              <span class="seq-label">KICK</span>
+              <div class="seq-steps" data-voice="kick"></div>
+            </div>
+            <div class="seq-row">
+              <span class="seq-label">SNARE</span>
+              <div class="seq-steps" data-voice="snare"></div>
+            </div>
+            <div class="seq-row">
+              <span class="seq-label">HAT</span>
+              <div class="seq-steps" data-voice="hihat"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="synth-section">
+          <div class="panel-header">
+            <h2>POLY SYNTH</h2>
+            <span class="panel-sub">click keys · tweak filter & env</span>
+          </div>
+          <div class="synth-controls">
+            <div class="control-group">
+              <h3>FILTER</h3>
+              <label>Cutoff
+                <input type="range" id="filterCutoff" min="200" max="8000" value="2000" />
+              </label>
+              <label>Resonance
+                <input type="range" id="filterRes" min="0.1" max="20" step="0.1" value="1.2" />
+              </label>
+            </div>
+            <div class="control-group">
+              <h3>ENVELOPE</h3>
+              <label>Attack
+                <input type="range" id="envAttack" min="0.001" max="0.5" step="0.001" value="0.01" />
+              </label>
+              <label>Decay
+                <input type="range" id="envDecay" min="0.05" max="2" step="0.01" value="0.4" />
+              </label>
+            </div>
+            <div class="control-group">
+              <h3>NOISE / DAMP</h3>
+              <label>Noise Level
+                <input type="range" id="noiseLevel" min="0" max="0.6" step="0.01" value="0.15" />
+              </label>
+              <label>Noise Gate
+                <input type="range" id="noiseGate" min="-60" max="-10" step="1" value="-40" />
+              </label>
+            </div>
+          </div>
+          <div class="keyboard" id="keyboard"></div>
+        </section>
+      </section>
+
+      <!-- Right: Mixer, FX, Visualizers -->
+      <aside class="right-panel">
+        <section class="mixer">
+          <div class="panel-header">
+            <h2>MIXER</h2>
+            <span class="panel-sub">volume · pan · verb send</span>
+          </div>
+          <div class="mixer-strips">
+            <div class="channel-strip">
+              <h3>DRUMS</h3>
+              <div class="meter" data-meter="drums">
+                <div class="meter-bar"></div>
+              </div>
+              <label>Vol
+                <input type="range" id="drumsVol" min="0" max="1" step="0.01" value="0.8" />
+              </label>
+              <label>Pan
+                <input type="range" id="drumsPan" min="-1" max="1" step="0.01" value="0" />
+              </label>
+              <label>Verb Send
+                <input type="range" id="drumsVerb" min="0" max="1" step="0.01" value="0.4" />
+              </label>
+            </div>
+
+            <div class="channel-strip">
+              <h3>SYNTH</h3>
+              <div class="meter" data-meter="synth">
+                <div class="meter-bar"></div>
+              </div>
+              <label>Vol
+                <input type="range" id="synthVol" min="0" max="1" step="0.01" value="0.8" />
+              </label>
+              <label>Pan
+                <input type="range" id="synthPan" min="-1" max="1" step="0.01" value="0" />
+              </label>
+              <label>Verb Send
+                <input type="range" id="synthVerb" min="0" max="1" step="0.01" value="0.5" />
+              </label>
+            </div>
+
+            <div class="channel-strip">
+              <h3>MASTER</h3>
+              <div class="meter" data-meter="master">
+                <div class="meter-bar"></div>
+              </div>
+              <label>Limiter
+                <input type="range" id="masterLimit" min="0.2" max="1" step="0.01" value="0.9" />
+              </label>
+            </div>
+          </div>
+        </section>
+
+        <section class="fx-panel">
+          <div class="panel-header">
+            <h2>STUDIO VERB</h2>
+            <span class="panel-sub">retro plate · space overlay</span>
+          </div>
+          <div class="verb-module">
+            <div class="verb-slider">
+              <label>Size</label>
+              <input type="range" id="verbSize" min="0.1" max="3" step="0.1" value="1.5" />
+            </div>
+            <div class="verb-slider">
+              <label>Damp</label>
+              <input type="range" id="verbDamp" min="0" max="1" step="0.01" value="0.3" />
+            </div>
+            <div class="verb-slider">
+              <label>Mix</label>
+              <input type="range" id="verbMix" min="0" max="1" step="0.01" value="0.4" />
+            </div>
+          </div>
+        </section>
+
+        <section class="visualizers">
+          <div class="panel-header">
+            <h2>VISUAL OVERLAYS</h2>
+            <span class="panel-sub">spectrum · oscilloscope</span>
+          </div>
+          <canvas id="spectrumCanvas" width="260" height="80"></canvas>
+          <canvas id="oscCanvas" width="260" height="80"></canvas>
+        </section>
+      </aside>
+    </main>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
